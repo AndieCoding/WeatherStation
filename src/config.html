@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Configuración</title>
+		<link rel="stylesheet" type="text/css" href="/src/css/styles.css" />
+		<link rel="icon" type="image/icon" href="src/css/img/logo-nobg.png" />
+	</head>
+	<body id="config">
+		<header>
+			<nav>
+				<a href="index.html"><img class="logo" src="src/css/img/logo-nobg.png" alt="Virtual" /></a>
+				<ul>
+					<li class="liUserName">
+						<a href="#"><img class="userIcon" src="src/css/img/userIcon.png" />Ajustes </a>
+						<ul>
+							<a href="/clima"><li>Clima</li></a>
+							<li><a id="logOff" href="">Salir</a></li>
+						</ul>
+					</li>
+				</ul>
+			</nav>
+		</header>
+
+		<main class="registro">
+			<div class="registroEncabezado">
+				<h1>Configuración</h1>
+				<a href="/clima"><span class="flecha">&#8617;</span></a>
+			</div>
+
+			<form id="editar" class="registro" action="" method="post">
+				<div class="container">
+					<article>
+						<label>Usuario</label>
+						<p id="user"></p>
+						<img id="editIcon_user" src="src/css/img/edit.png" alt="Editar" name="user" />
+						<img id="checkIcon_user" class="checkIcon" src="src/css/img/check.png" alt="Guardar" name='user' />
+						<img id="cancelIcon_user" class="cancelIcon" src="src/css/img/undo.png" alt="Undo" name='user' />
+					</article>
+
+					<article class="imageSection">
+						<div class="previewImage"></div>
+						<input style="width: 90px" type="file" name="image" hidden />
+						<!-- <button class="saveBtn" id="uploadButton">Guardar</button> -->
+					</article>
+
+					<article>
+						<label class="labelSelect">País</label>
+						<br />
+						<p id="country"></p>
+						<img id="editIcon_country" src="src/css/img/edit.png" alt="Editar" name='country' />
+						<img id="checkIcon_country" class="checkIcon" src="src/css/img/check.png" alt="Guardar" name='country' />
+						<img id="cancelIcon_country" class="cancelIcon" src="src/css/img/undo.png" alt="Undo" name='country' />
+					</article>
+				</div>
+
+				<div id="configLine" class="line"></div>
+
+				<section>
+					<label>Localidad</label>
+					<p id="city"></p>
+					<img id="editIcon_city" src="src/css/img/edit.png" alt="Editar" name="city" />
+					<img id="checkIcon_city" class="checkIcon" src="src/css/img/check.png" alt="Guardar" name='city' />
+					<img id="cancelIcon_city" class="cancelIcon" src="src/css/img/undo.png" alt="Undo" name='city' />
+				</section>
+
+				<section>
+					<label>Correo</label>
+					<p id="email"></p>
+					<img id="editIcon_email" src="src/css/img/edit.png" alt="Editar" name='email' />
+					<img id="checkIcon_email" class="checkIcon" src="src/css/img/check.png" alt="Guardar" name='email' />
+					<img id="cancelIcon_email" class="cancelIcon" src="src/css/img/undo.png" alt="Undo" name='email' />
+				</section>
+
+				<section class="sectionPass">
+					<label>Contraseña</label>
+					<p id="pass"></p>
+					<button id="editIcon_pass" type="button" > Cambiar contraseña</button>
+					<img id="checkIcon_pass" class="checkIcon" src="src/css/img/check.png" alt="Guardar" name='pass' />
+					<img id="cancelIcon_pass" class="cancelIcon" src="src/css/img/undo.png" alt="Undo" name='pass' />
+				</section>
+
+				<div id="displayError"></div>
+				<div id="configLine" class="line"></div>
+
+				<section class="sectionAccDel">
+					<a id="editIcon_acc" class="deleteAcc">Eliminar cuenta</a>
+				</section>
+
+				<div 
+					id="confirmWindow" 
+					class="emergente">
+					
+					<span class="close">
+						&times;
+					</span>
+					<p>Ingresa tu contraseña para continuar:</p>
+					<div>
+						<input 
+							type="password" 
+							id="confirmPass" />
+						<div class="iconImg">
+							<img
+							class="eye-icon"
+							id="img-open-eye"
+							src="src/css/img/open-eye.png"
+						/>
+						<img 
+							class="eye-icon" 
+							id="img-close-eye" 
+							src="src/css/img/close-eye.png" />
+						</div>
+					</div>
+					<button id="confirmButton" type="button">Confirmar</button>
+				</div>
+			</form>
+		</main>
+		<footer>
+			<p id="text">Todos los derechos reservados</p>
+		</footer>
+		<script src="src/js/config.js" type="module"></script>
+		<script>
+			/*
+			const divImage = document.querySelector('.previewImage');
+			const input = document.querySelector('input[type="file"]');
+			divImage.addEventListener(
+				'click', () => {
+			        input.click();
+			});
+			input.addEventListener('change', () => {
+				if (input.files && input.files[0]) {
+				  const file = input.files[0];
+				  const reader = new FileReader();
+
+				  reader.onload = function(e) {
+					divImage.style.backgroundImage = `url(${e.target.result})`;
+					divImage.style.backgroundSize = 'contain';
+					divImage.style.backgroundPosition = 'center';
+					divImage.style.backgroundRepeat = 'no-repeat';
+					const stringImg = event.target.result;
+  					localStorage.setItem('img', stringImg);
+				  };
+
+				  reader.readAsDataURL(file);
+				  localStorage.setItem('img', file)
+				}
+			});
+			document.getElementById("uploadButton").addEventListener("click", function (event) {
+				event.preventDefault();
+
+				const formData = new FormData();
+				formData.append("image", input.files[0]);
+				const userName = document.getElementById("user").textContent;
+
+				fetch(`https://localhost:3000/upload/${userName}`, {
+					method: "POST",
+					body: formData,
+				})
+					.then((response) => response.text())
+					.then((data) => {
+						console.log(data);
+						alert(data);
+					})
+					.catch((error) => {
+						console.error(error);
+						alert("An error occurred while uploading the file.");
+					});
+			});*/
+		</script>
+	</body>
+</html>
